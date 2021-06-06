@@ -1,3 +1,8 @@
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+
+
 from .base_page import BasePage
 from .locators import ProductPageLocators
 
@@ -35,3 +40,20 @@ class PageObject(BasePage):
         error_info = "Item price not equal to added to card item price"
 
         assert item_price == added_to_card_item_price, error_info
+
+    def is_not_element_presented(self, method, css_selector, timeout=4):
+        try:
+            WebDriverWait(self.browser, timeout).until(
+                EC.presence_of_element_located((method, css_selector))
+            )
+        except TimeoutException:
+            return True
+        return False
+
+    def should_not_be_success_message(self, timeout=4):
+        """Should not be success message before item added to the basket"""
+        method = ProductPageLocators.SUCCESS_MESSAGE[0]
+        css_selector = ProductPageLocators.SUCCESS_MESSAGE[1]
+        success_message = self.is_not_element_presented(method, css_selector)
+
+        assert success_message == True, "Success message is presented"

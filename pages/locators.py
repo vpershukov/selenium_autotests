@@ -19,3 +19,4 @@ class ProductPageLocators():
     ADDED_TO_CARD_ITEM_NAME = (By.CSS_SELECTOR, ".page_inner .alert-success strong")
     ITEM_PRICE = (By.CSS_SELECTOR, ".product_main .price_color")
     ADDED_TO_CARD_ITEM_PRICE = (By.CSS_SELECTOR, ".page_inner .alert-info strong")
+    SUCCESS_MESSAGE = (By.CSS_SELECTOR, ".page_inner .alert-success")
