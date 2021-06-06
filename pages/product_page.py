@@ -50,10 +50,27 @@ class PageObject(BasePage):
             return True
         return False
 
-    def should_not_be_success_message(self, timeout=4):
+    def is_element_disappeared(self, method, css_selector, timeout=4):
+        try:
+            WebDriverWait(self.browser, timeout, 1, TimeoutException).until_not(
+                EC.presence_of_element_located((method, css_selector))
+            )
+        except TimeoutException:
+            return False
+        return True
+
+    def should_not_be_success_message(self):
         """Should not be success message before item added to the basket"""
-        method = ProductPageLocators.SUCCESS_MESSAGE[0]
-        css_selector = ProductPageLocators.SUCCESS_MESSAGE[1]
-        success_message = self.is_not_element_presented(method, css_selector)
+        success_message = self.is_not_element_presented(
+            *ProductPageLocators.SUCCESS_MESSAGE
+        )
 
         assert success_message == True, "Success message is presented"
+
+    def should_be_disappeared_success_message(self):
+        """Success message should disappeare after item added to the basket"""
+        success_message = self.is_element_disappeared(
+            *ProductPageLocators.SUCCESS_MESSAGE
+        )
+
+        assert success_message == True, "Success message is not disappeared"
