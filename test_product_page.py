@@ -3,10 +3,12 @@ import pytest
 
 from .pages.product_page import PageObject
 from .pages.login_page import LoginPage
+from .pages.basket_page import BasketPage
 
 
-CODERS_AT_WORK = "http://selenium1py.pythonanywhere.com/ru/catalogue/coders-at-work_207/"
-CITY_AND_STARS = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
+MAIN_PAGE = "http://selenium1py.pythonanywhere.com/ru/"
+CODERS_AT_WORK = f"{MAIN_PAGE}catalogue/coders-at-work_207/"
+CITY_AND_STARS = f"{MAIN_PAGE}catalogue/the-city-and-the-stars_95/"
 
 
 @pytest.mark.parametrize(
@@ -62,6 +64,12 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     login_page = LoginPage(browser, browser.current_url)
     login_page.should_be_login_page()
 
-# TO DO
+
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
-    pass
+    page = PageObject(browser, CODERS_AT_WORK)
+    page.open()
+    page.should_be_basket_btn()
+    page.go_to_basket()
+    basket_page = BasketPage(browser, browser.current_url)
+    basket_page.should_be_empty_basket()
+    basket_page.should_be_empty_basket_info()

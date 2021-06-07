@@ -26,3 +26,8 @@ class ProductPageLocators():
     ITEM_PRICE = (By.CSS_SELECTOR, ".product_main .price_color")
     ADDED_TO_CARD_ITEM_PRICE = (By.CSS_SELECTOR, ".page_inner .alert-info strong")
     SUCCESS_MESSAGE = (By.CSS_SELECTOR, ".page_inner .alert-success")
+
+
+class BasketPageLocators():
+    EMPTY_BASKET_INFO = (By.CSS_SELECTOR, ".content p")
+    BASKET_WO_ITEMS = (By.ID, "#basket_formset")
