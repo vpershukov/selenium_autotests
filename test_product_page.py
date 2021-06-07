@@ -7,8 +7,34 @@ from .pages.basket_page import BasketPage
 
 
 MAIN_PAGE = "http://selenium1py.pythonanywhere.com/ru/"
+LOGIN_URL = "http://selenium1py.pythonanywhere.com/ru/accounts/login/"
 CODERS_AT_WORK = f"{MAIN_PAGE}catalogue/coders-at-work_207/"
 CITY_AND_STARS = f"{MAIN_PAGE}catalogue/the-city-and-the-stars_95/"
+
+
+@pytest.mark.login_guest1
+class TestUserAddToBasketFromProductPage():
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, browser):
+        self.login_page = LoginPage(browser, LOGIN_URL)
+        self.login_page.open()
+        self.login_page.register_new_user()
+        self.login_page.should_be_authorized_user()
+
+    def test_user_cant_see_success_message(self, browser):
+        page = PageObject(browser, CODERS_AT_WORK)
+        page.open()
+        page.should_not_be_success_message()
+
+
+    def test_user_can_add_product_to_basket(self, browser):
+        URL = f"{CODERS_AT_WORK}?promo=offer0"
+        page = PageObject(browser, URL)
+        page.open()
+        page.add_item_to_card()
+        page.solve_quiz_and_get_code()
+        page.should_be_item_name_in_card_message()
+        page.should_be_item_price_in_card_info()
 
 
 @pytest.mark.parametrize(
@@ -19,7 +45,7 @@ CITY_AND_STARS = f"{MAIN_PAGE}catalogue/the-city-and-the-stars_95/"
         "offer8", "offer9"
     ]
 )
-def test_guest_able_to_add_item_to_card(browser, promo_code):
+def test_guest_can_add_product_to_basket(browser, promo_code):
     URL = f"{CODERS_AT_WORK}?promo={promo_code}"
     page = PageObject(browser, URL)
     page.open()
