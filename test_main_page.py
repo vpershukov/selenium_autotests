@@ -31,7 +31,7 @@ def test_guest_should_see_current_login_page(browser):
     page.open()
     page.should_be_login_page()
 
-
+# Тест падает при language != ru
 def test_guest_cant_see_product_in_basket_opened_from_main_page(browser):
     page = MainPage(browser, MAIN_PAGE)
     page.open()
