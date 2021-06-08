@@ -5,9 +5,9 @@ from .pages.main_page import MainPage
 from .pages.login_page import LoginPage
 from .pages.basket_page import BasketPage
 
-
-MAIN_PAGE = "http://selenium1py.pythonanywhere.com/ru/"
-LOGIN_URL = "http://selenium1py.pythonanywhere.com/ru/accounts/login/"
+# URLS
+MAIN_PAGE = "http://selenium1py.pythonanywhere.com/"
+LOGIN_URL = f"{MAIN_PAGE}accounts/login/"
 
 
 @pytest.mark.login_guest
