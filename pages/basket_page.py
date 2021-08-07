@@ -11,9 +11,7 @@ class BasketPage(BasePage):
         assert empty_basket == True, "Basket is not empty"
 
     def should_be_empty_basket_info(self):
-        empty_basket_info = self.browser.find_element(
-            *BasketPageLocators.EMPTY_BASKET_INFO).text
-        empty_basket_message = "Ваша корзина пуста"
-        error_ifo = "Basket is not empty or basket message is wrong"
+        empty_basket_info = self.is_element_present(
+            *BasketPageLocators.EMPTY_BASKET_INFO)
 
-        assert empty_basket_message in empty_basket_info, error_ifo
+        assert empty_basket_info == True, "Basket is not empty"

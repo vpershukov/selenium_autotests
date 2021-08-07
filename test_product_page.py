@@ -4,30 +4,25 @@ import pytest
 from .pages.product_page import PageObject
 from .pages.login_page import LoginPage
 from .pages.basket_page import BasketPage
-
-# URLS
-MAIN_PAGE = "http://selenium1py.pythonanywhere.com/"
-LOGIN_URL = f"{MAIN_PAGE}accounts/login/"
-CODERS_AT_WORK = f"{MAIN_PAGE}catalogue/coders-at-work_207/"
-CITY_AND_STARS = f"{MAIN_PAGE}catalogue/the-city-and-the-stars_95/"
+import project_urls
 
 
 class TestUserAddToBasketFromProductPage():
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, browser):
-        self.login_page = LoginPage(browser, LOGIN_URL)
+        self.login_page = LoginPage(browser, project_urls.LOGIN_URL)
         self.login_page.open()
         self.login_page.register_new_user()
         self.login_page.should_be_authorized_user()
 
     def test_user_cant_see_success_message(self, browser):
-        page = PageObject(browser, CODERS_AT_WORK)
+        page = PageObject(browser, project_urls.CODERS_AT_WORK)
         page.open()
         page.should_not_be_success_message()
 
     @pytest.mark.need_review
     def test_user_can_add_product_to_basket(self, browser):
-        URL = f"{CODERS_AT_WORK}?promo=offer0"
+        URL = f"{project_urls.CODERS_AT_WORK}?promo=offer0"
         page = PageObject(browser, URL)
         page.open()
         page.add_item_to_card()
@@ -37,18 +32,16 @@ class TestUserAddToBasketFromProductPage():
 
 
 @pytest.mark.need_review
-# @pytest.mark.parametrize(
-#     "promo_code",
-#     [
-#         "offer0", "offer1", "offer2", "offer3", "offer4",
-#         "offer5", "offer6", pytest.param("offer7", marks=pytest.mark.skip),
-#         "offer8", "offer9"
-#     ]
-# )
-# def test_guest_can_add_product_to_basket(browser, promo_code):
-def test_guest_can_add_product_to_basket(browser):
-    # URL = f"{CODERS_AT_WORK}?promo={promo_code}"
-    URL = f"{CODERS_AT_WORK}?promo=offer8"
+@pytest.mark.parametrize(
+    "promo_code",
+    [
+        "offer0", "offer1", "offer2", "offer3", "offer4",
+        "offer5", "offer6", pytest.param("offer7", marks=pytest.mark.skip),
+        "offer8", "offer9"
+    ]
+)
+def test_guest_can_add_product_to_basket(browser, promo_code):
+    URL = f"{project_urls.CODERS_AT_WORK}?promo={promo_code}"
     page = PageObject(browser, URL)
     page.open()
     page.add_item_to_card()
@@ -58,45 +51,45 @@ def test_guest_can_add_product_to_basket(browser):
 
 
 def test_guest_cant_see_success_message(browser):
-    page = PageObject(browser, CODERS_AT_WORK)
+    page = PageObject(browser, project_urls.CODERS_AT_WORK)
     page.open()
     page.should_not_be_success_message()
 
 
-@pytest.mark.skip(reason="Negative test for task")
+@pytest.mark.skip(reason="Failed test for lesson 4.3")
 def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
-    page = PageObject(browser, CODERS_AT_WORK)
+    page = PageObject(browser, project_urls.CODERS_AT_WORK)
     page.open()
     page.add_item_to_card()
     page.should_not_be_success_message()
 
 
-@pytest.mark.skip(reason="Negative test for task")
+@pytest.mark.skip(reason="Failed test for lesson 4.3")
 def test_message_disappeared_after_adding_product_to_basket(browser):
-    page = PageObject(browser, CODERS_AT_WORK)
+    page = PageObject(browser, project_urls.CODERS_AT_WORK)
     page.open()
     page.add_item_to_card()
     page.should_be_disappeared_success_message()
 
 
 def test_guest_should_see_login_link_on_product_page(browser):
-    page = PageObject(browser, CITY_AND_STARS)
+    page = PageObject(browser, project_urls.CITY_AND_STARS)
     page.open()
     page.should_be_login_link()
 
 
 @pytest.mark.need_review
 def test_guest_can_go_to_login_page_from_product_page(browser):
-    page = PageObject(browser, CITY_AND_STARS)
+    page = PageObject(browser, project_urls.CITY_AND_STARS)
     page.open()
     page.go_to_login_page()
     login_page = LoginPage(browser, browser.current_url)
     login_page.should_be_login_page()
 
-# Тест падает при language != ru
+
 @pytest.mark.need_review
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
-    page = PageObject(browser, CODERS_AT_WORK)
+    page = PageObject(browser, project_urls.CODERS_AT_WORK)
     page.open()
     page.should_be_basket_btn()
     page.go_to_basket()

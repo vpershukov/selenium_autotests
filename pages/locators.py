@@ -30,8 +30,8 @@ class ProductPageLocators():
 
 
 class BasketPageLocators():
-    EMPTY_BASKET_INFO = (By.CSS_SELECTOR, ".content p")
     BASKET_WO_ITEMS = (By.ID, "basket_formset")
+    EMPTY_BASKET_INFO = (By.CSS_SELECTOR, "#content_inner > p")
     REGISTER_USER_EMAIL = (By.ID, "id_registration-email")
     REGISTER_USER_PASS = (By.ID, "id_registration-password1")
     REGISTER_USER_PASS_CONFIRM = (By.ID, "id_registration-password2")
