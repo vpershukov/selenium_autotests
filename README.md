@@ -20,10 +20,10 @@ selenium==3.141.0
 - login_guest
 - need_review
 
-Пример команды для запуска тестов с меткой `need_review`: `pytest -v --language=en -m need_review`. 
+Пример команды для запуска тестов с меткой `need_review`: `pytest -v --language=en -m need_review`.
 
 ## Анализ результата
-Если все шаги выполнились -- тест пройден. Пример:
+Тест пройден, когда все проверки выполнены без ошибок. Пример:
 ```
 pytest -v
 test_product_page.py::test_user_can_add_product_to_basket    PASSED    [100%]
